@@ -5,9 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#090d19">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>𝐸𝒩𝒢. 𝑀. 𝐵𝑜𝓃𝒟𝑜𝒦</title>
-<link rel="manifest" href="./manifest.webmanifest">
+<meta name="apple-mobile-web-app-title" content="جدول السنة 1">
+<title>جدول السنة الأولى - كل السكاشن</title>
+<link id="pwa-manifest" rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
@@ -38,6 +40,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 .chip:hover{transform:translateY(-2px)}
 .chip.on{background:linear-gradient(105deg,#1461d5,#157fff);color:#fff;border-color:#45a2ff;box-shadow:0 0 12px rgba(42,126,255,.4)}
 .chip.wkb.on{background:linear-gradient(105deg,#168e78,#25c99c);border-color:#54e2b9;box-shadow:0 0 12px rgba(43,210,160,.28)}
+.chip.install-btn{background:linear-gradient(105deg,#6c3ef0,#1976ff);color:#fff;border-color:#84a9ff;box-shadow:0 0 12px rgba(74,114,255,.35)}
 .sp{flex:1}
 .viewbar{display:flex;align-items:center;gap:12px;margin:12px 0}
 .views{display:flex;flex:1;background:linear-gradient(120deg,rgba(19,27,45,.96),rgba(12,18,32,.96));border:1px solid rgba(145,164,203,.3);border-radius:999px;padding:4px;box-shadow:var(--sh)}
@@ -94,7 +97,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 :root[data-theme="light"] .section-picker select,:root[data-theme="light"] .day-picker select{background:#fff;color:#1769e0;box-shadow:0 6px 16px rgba(0,0,0,.1)}
 :root[data-theme="light"] header h1{color:#1769e0;text-shadow:none}
 :root[data-theme="light"] .section-picker label{color:var(--mut)}
-:root[data-theme="light"] .chip:not(.on){background:var(--card);color:var(--text);border-color:var(--bd);box-shadow:var(--sh)}
+:root[data-theme="light"] .chip:not(.on):not(.install-btn){background:var(--card);color:var(--text);border-color:var(--bd);box-shadow:var(--sh)}
 :root[data-theme="light"] .views{background:var(--card);border-color:transparent}
 :root[data-theme="light"] .card{background:var(--card);border:1px solid var(--bd);border-left:4px solid var(--c);box-shadow:var(--sh)}
 :root[data-theme="light"] .next{background:var(--card);border-color:var(--bd);border-left:3px solid #b14cff;box-shadow:var(--sh)}
@@ -129,6 +132,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <span class="sp"></span>
 <button class="chip wkb" data-w="0">الأسبوعين</button><button class="chip wkb" data-w="1">أسبوع 1</button><button class="chip wkb on" data-w="2">أسبوع 2</button>
 <button class="chip" id="calendar"><svg class="icon icon-calendar" aria-hidden="true"><use href="#icon-calendar"></use></svg> تقويم (.ics)</button>
+<button class="chip install-btn" id="install-app" hidden>تثبيت التطبيق</button>
 </div>
 <div class="day-picker"><label for="day">اختر اليوم</label><select id="day" aria-label="اختر اليوم"></select></div>
 </div>
@@ -573,6 +577,70 @@ $("theme").onclick=()=>{
   icon.querySelector("use").setAttribute("href",dark?"#icon-sun":"#icon-moon");
 };
 
+// دعم تثبيت التطبيق (PWA) تلقائياً
+let deferredInstallPrompt=null;
+const installBtn=$("install-app");
+
+function createSvgIconDataUrl(size){
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#090d19"/><path d="m12 2 9 4v5c0 5-3.7 9.2-9 11-5.3-1.8-9-6-9-11V6l9-4Z" fill="#1976ff"/><path d="M12 5 6 8v3c0 3.3 2.3 6.4 6 8 3.7-1.6 6-4.7 6-8V8l-6-3Z" fill="#eff4ff"/><path d="M8 12h2l1.2-2.5 2.1 5 1.2-2.5H17" fill="none" stroke="#090d19" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
+
+function setupFallbackManifest(){
+  const manifestLink=$("pwa-manifest");
+  if(!manifestLink||location.protocol==="file:")return;
+  const manifestData={
+    name:"جدول السنة الأولى - الأمن السيبراني",
+    short_name:"جدول السنة 1",
+    start_url:location.pathname||"/",
+    scope:"./",
+    display:"standalone",
+    background_color:"#090d19",
+    theme_color:"#090d19",
+    lang:"ar",
+    dir:"rtl",
+    icons:[
+      {src:createSvgIconDataUrl(192),sizes:"192x192",type:"image/svg+xml",purpose:"any"},
+      {src:createSvgIconDataUrl(512),sizes:"512x512",type:"image/svg+xml",purpose:"any"}
+    ]
+  };
+  fetch("./manifest.webmanifest",{cache:"no-store"}).then(res=>{
+    if(!res.ok)throw new Error("manifest not found");
+    return res.json();
+  }).then(manifest=>{
+    const hasIcons=Array.isArray(manifest.icons)&&manifest.icons.length>0;
+    if(!hasIcons){
+      throw new Error("manifest missing icons");
+    }
+  }).catch(()=>{
+    const blob=new Blob([JSON.stringify(manifestData)],{type:"application/manifest+json"});
+    manifestLink.href=URL.createObjectURL(blob);
+  });
+}
+
+setupFallbackManifest();
+
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  if(installBtn)installBtn.hidden=false;
+});
+
+if(installBtn){
+  installBtn.onclick=async()=>{
+    if(!deferredInstallPrompt)return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt=null;
+    installBtn.hidden=true;
+  };
+}
+
+window.addEventListener("appinstalled",()=>{
+  deferredInstallPrompt=null;
+  if(installBtn)installBtn.hidden=true;
+});
+
 // تحديد اليوم والأسبوع تلقائياً
 syncAutoWeek(now);
 selectNextScheduledDay();
@@ -598,7 +666,33 @@ document.addEventListener("visibilitychange",()=>{
 
 if("serviceWorker" in navigator&&location.protocol!=="file:"){
   window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("./sw.js").catch(error=>{
+    const swCode=`
+      const CACHE_NAME="schedule-y1-v2";
+      self.addEventListener("install",event=>{
+        self.skipWaiting();
+      });
+      self.addEventListener("activate",event=>{
+        event.waitUntil(
+          caches.keys().then(keys=>Promise.all(
+            keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k))
+          ))
+        );
+        self.clients.claim();
+      });
+      self.addEventListener("fetch",event=>{
+        if(event.request.method!=="GET")return;
+        event.respondWith(
+          fetch(event.request).then(res=>{
+            const clone=res.clone();
+            caches.open(CACHE_NAME).then(c=>c.put(event.request,clone)).catch(()=>{});
+            return res;
+          }).catch(()=>caches.match(event.request))
+        );
+      });
+    `;
+    const swBlob=new Blob([swCode],{type:"application/javascript"});
+    const swUrl=URL.createObjectURL(swBlob);
+    navigator.serviceWorker.register(swUrl).catch(error=>{
       console.error("Service worker registration failed:",error);
     });
   });
