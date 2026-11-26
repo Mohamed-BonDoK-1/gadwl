@@ -3,7 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090d19">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>جدول السنة الأولى - كل السكاشن</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#edf5ff;--card:#fff;--text:#123a69;--mut:#647f9f;--acc:#1769e0;--lec:#1769e0;--sec:#1769e0;--bd:#d6e6fa;--sh:0 8px 24px rgba(23,105,224,.10);color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -122,7 +127,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <div class="top">
 <button class="chip on" data-f="all">الكل</button><button class="chip" data-f="lec">محاضرات</button><button class="chip" data-f="sec">سكاشن</button>
 <span class="sp"></span>
-<button class="chip wkb on" data-w="0">الأسبوعين</button><button class="chip wkb" data-w="1">أسبوع 1</button><button class="chip wkb" data-w="2">أسبوع 2</button>
+<button class="chip wkb" data-w="0">الأسبوعين</button><button class="chip wkb" data-w="1">أسبوع 1</button><button class="chip wkb on" data-w="2">أسبوع 2</button>
 <button class="chip" id="calendar"><svg class="icon icon-calendar" aria-hidden="true"><use href="#icon-calendar"></use></svg> تقويم (.ics)</button>
 </div>
 <div class="day-picker"><label for="day">اختر اليوم</label><select id="day" aria-label="اختر اليوم"></select></div>
@@ -132,14 +137,20 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 </div>
 <script>
 const DN=["السبت","الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة"],JD=[6,0,1,2,3,4,5],OFF=[1,2,3],CARD_COLORS=["#854cff","#2bd2a0","#e4d24b","#ee65b0","#38a7ff"];
-const WEEK_TWO_START=Date.UTC(2026,10,15);
+// بداية الأسبوع الثاني: الأحد 22 نوفمبر 2026 (الأسبوع يبدأ الأحد وينتهي السبت)
+const WEEK_TWO_START=Date.UTC(2026,10,22);
+const MS_PER_WEEK=7*24*60*60*1000;
+
+function getSundayUtc(date=new Date()){
+  return Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()-date.getDay());
+}
+
 function getCurrentWeek(date=new Date()){
-  const start=new Date(date);
-  start.setDate(start.getDate()-start.getDay());
-  const startUtc=Date.UTC(start.getFullYear(),start.getMonth(),start.getDate());
-  const weekOffset=Math.round((startUtc-WEEK_TWO_START)/(7*24*60*60*1000));
+  const currentSundayUtc=getSundayUtc(date);
+  const weekOffset=Math.round((currentSundayUtc-WEEK_TWO_START)/MS_PER_WEEK);
   return Math.abs(weekOffset%2)===0?2:1;
 }
+
 const N={
   P:"Applied Physics",
   T:"Information Technology",
@@ -281,10 +292,23 @@ const SUBJ=[
 
 const fmt=h=>String(h>12?h-12:h).padStart(2,"0")+":00";
 let now=new Date(),todayIdx=JD.indexOf(now.getDay()),nowMin=now.getHours()*60+now.getMinutes();
-let sec=1,sel=todayIdx,filter="all",week=getCurrentWeek(),autoWeek=week,view="s";
+let sec=1,sel=todayIdx,filter="all",autoWeek=getCurrentWeek(now),week=autoWeek,manualWeekOverride=false,view="s";
 try{const v=+localStorage.getItem("sec_y1");if(v>=1&&v<=15)sec=v}catch(e){}
 const $=id=>document.getElementById(id),list=$("list"),daySelect=$("day");
 const icon=name=>`<svg class="icon icon-${name}" aria-hidden="true"><use href="#icon-${name}"></use></svg>`;
+
+function syncAutoWeek(date=new Date()){
+  const detectedWeek=getCurrentWeek(date);
+  const weekChanged=detectedWeek!==autoWeek;
+  autoWeek=detectedWeek;
+  if(weekChanged){
+    manualWeekOverride=false;
+    week=autoWeek;
+  }else if(!manualWeekOverride){
+    week=autoWeek;
+  }
+  return weekChanged;
+}
 
 const dayItems=(d,s)=>{
   const lecs = LEC_ALL.filter(l=>l[0]===d && l[6].includes(s)).map(l=>({
@@ -527,6 +551,7 @@ document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{
 
 document.querySelectorAll(".wkb").forEach(b=>b.onclick=()=>{
   week=+b.dataset.w;
+  manualWeekOverride=week!==autoWeek;
   render();
 });
 
@@ -548,7 +573,8 @@ $("theme").onclick=()=>{
   icon.querySelector("use").setAttribute("href",dark?"#icon-sun":"#icon-moon");
 };
 
-// تحديد اليوم تلقائياً
+// تحديد اليوم والأسبوع تلقائياً
+syncAutoWeek(now);
 selectNextScheduledDay();
 
 render();
@@ -556,10 +582,8 @@ render();
 function updateClock(){
   const previousDay=todayIdx;
   const previousHour=Math.floor(nowMin/60);
-  const currentWeek=getCurrentWeek();
-  const weekChanged=currentWeek!==autoWeek;
-  if(weekChanged){autoWeek=currentWeek;week=currentWeek}
   now=new Date();
+  const weekChanged=syncAutoWeek(now);
   todayIdx=JD.indexOf(now.getDay());
   nowMin=now.getHours()*60+now.getMinutes();
 
@@ -571,6 +595,14 @@ setInterval(updateClock,30000);
 document.addEventListener("visibilitychange",()=>{
   if(!document.hidden)updateClock();
 });
+
+if("serviceWorker" in navigator&&location.protocol!=="file:"){
+  window.addEventListener("load",()=>{
+    navigator.serviceWorker.register("./sw.js").catch(error=>{
+      console.error("Service worker registration failed:",error);
+    });
+  });
+}
 </script>
 </body>
 </html>
