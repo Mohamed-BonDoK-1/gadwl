@@ -22,7 +22,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:'Cairo',Tahoma,
 .wrap{max-width:900px;margin:0 auto;padding:22px 14px 40px}
 header{background:transparent;color:var(--text);border:0;border-radius:0;padding:10px 0 4px;box-shadow:none;position:relative;overflow:visible}
 @keyframes grad{50%{background-position:100% 50%}}
-header h1{margin:0 0 4px;font-size:1.35rem;font-weight:800;color:#67e7ff;text-shadow:0 0 16px rgba(83,221,255,.35);display:flex;align-items:center;gap:9px;letter-spacing:.3px}
+header h1{margin:0 0 4px;font-size:1.35rem;font-weight:800;color:#67e7ff;text-shadow:0 0 16px rgba(83,221,255,.35);display:flex;align-items:center;gap:10px;letter-spacing:.2px}
 header h2{margin:0 0 4px;font-size:.95rem;font-weight:600;opacity:.92}
 header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 .orb{display:none}
@@ -90,7 +90,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 .icon-pin{color:#2b8a3e;background:#d8f5a2;border-radius:50% 50% 50% 8px}
 .icon-rest{color:#495057;background:#e9ecef;border-radius:18px 4px 18px 4px}
 .icon-party{color:#c2255c;background:#ffec99;border-radius:6px 50% 6px 50%}
-.icon-cyber-lock{width:2.1em;height:2.1em;padding:0;color:#4be8ff;background:transparent;border-radius:0;filter:drop-shadow(0 0 9px rgba(45,212,191,.55))}
+.icon-cyber-crown{width:2.35em;height:2.35em;padding:0;color:#63eaff;background:transparent;border-radius:0;filter:drop-shadow(0 0 9px rgba(79,222,255,.55))}
 .icon-label{display:inline-flex;align-items:center;gap:6px}
 .views button .icon,.chip .icon{margin-inline-end:4px}
 .empty .e .icon{width:3.2rem;height:3.2rem}
@@ -111,12 +111,13 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <symbol id="icon-books" viewBox="0 0 24 24"><path d="m3 7 5-3 4 13-5 3L3 7Z" fill="currentColor"/><path d="m8 5 5-3 4 13-5 3L8 5Z" fill="#fff" stroke="currentColor" stroke-width="1.1"/><path d="m14 6 6-1v14l-6 1V6Z" fill="currentColor"/><path d="m5 10 4-2m1-1 4-2m2 6 3-.5" fill="none" stroke="#ffc857" stroke-width="1.3"/><path d="m11 3 2 8-2-1-1 2-2-8 3-1Z" fill="#c2255c"/></symbol>
 <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M16.5 3.5A8.5 8.5 0 1 0 20.5 16a7 7 0 0 1-4-12.5Z" fill="currentColor"/><circle cx="9" cy="11" r="1" fill="#fff"/><circle cx="13" cy="11" r="1" fill="#fff"/><path d="M9 14q2 2 4 0" fill="none" stroke="#fff" stroke-width="1.1"/><path d="m18 3 .7 1.5 1.6.7-1.6.6L18 7.5l-.6-1.7-1.6-.6 1.6-.7L18 3Z" fill="#ffc857"/></symbol>
 <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#ffc857"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M4.9 4.9 7 7m10 10 2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="2" fill="#fff"/></symbol>
-<symbol id="icon-cyber-lock" viewBox="0 0 28 28">
-  <rect x="2" y="2" width="24" height="24" rx="7" fill="#0d1b33" stroke="#38bdf8" stroke-width="1.5"/>
-  <path d="M7.5 10.5 5 14l2.5 3.5M20.5 10.5 23 14l-2.5 3.5" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="10.2" y="13.2" width="7.6" height="6.3" rx="1.6" fill="#1976ff" stroke="#bae6fd" stroke-width="1.2"/>
-  <path d="M11.8 13.2v-2.1a2.2 2.2 0 0 1 4.4 0v2.1" fill="none" stroke="#67e7ff" stroke-width="1.5" stroke-linecap="round"/>
-  <circle cx="14" cy="16.2" r="1" fill="#eff4ff"/>
+<symbol id="icon-cyber-crown" viewBox="0 0 32 32">
+  <path d="m4 10 6.2 5L16 6.5l5.8 8.5L28 10l-2.4 15H6.4L4 10Z" fill="#0d2240" stroke="#63eaff" stroke-width="1.7" stroke-linejoin="round"/>
+  <path d="M7.5 22.5h17" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="4" cy="8.5" r="1.8" fill="#67e7ff"/>
+  <circle cx="16" cy="4.8" r="2" fill="#2dd4bf"/>
+  <circle cx="28" cy="8.5" r="1.8" fill="#67e7ff"/>
+  <text x="16" y="19.5" text-anchor="middle" fill="#eff4ff" font-family="Arial,sans-serif" font-size="6.4" font-weight="800" letter-spacing="0.4">MB</text>
 </symbol>
 <symbol id="icon-teacher" viewBox="0 0 24 24"><path d="M4 21a8 8 0 0 1 16 0H4Z" fill="currentColor"/><circle cx="12" cy="12" r="6" fill="#ffc857"/><path d="M6 10q0-7 6-7t6 7l-2 2H8l-2-2Z" fill="currentColor"/><circle cx="10" cy="11" r="1.5" fill="#fff"/><circle cx="14" cy="11" r="1.5" fill="#fff"/><circle cx="10" cy="11" r=".6" fill="#1864ab"/><circle cx="14" cy="11" r=".6" fill="#1864ab"/><path d="m12 12 1 2h-2l1-2Z" fill="#e67700"/><path d="m4 5 8-3 8 3-8 3-8-3Z" fill="#6741d9"/><path d="M19 5v4" fill="none" stroke="#ffc857" stroke-width="1.2"/></symbol>
 <symbol id="icon-laptop" viewBox="0 0 24 24"><path d="M4 3h16v14H4z" fill="currentColor"/><path d="M6 5h12v10H6z" fill="#fff"/><path d="m2 18 2-2h16l2 2-2 3H4l-2-3Z" fill="currentColor"/><path d="m8 12 2-3 2 2 2-3 2 4H8Z" fill="#0b7285"/><circle cx="10" cy="7.5" r="1" fill="#ffc857"/><circle cx="14" cy="7.5" r="1" fill="#c2255c"/><path d="M9 19h6" fill="none" stroke="#fff" stroke-width="1.2"/></symbol>
@@ -128,7 +129,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <symbol id="icon-party" viewBox="0 0 24 24"><path d="m3 20 7-16 11 16H3Z" fill="currentColor"/><path d="m7 15 3-7 6 7H7Z" fill="#fff"/><path d="M10 4 12 2l2 2-2 2-2-2Z" fill="#ffc857"/><circle cx="5" cy="6" r="1.2" fill="#ffc857"/><circle cx="19" cy="4" r="1" fill="#0b7285"/><path d="M3 11h3M19 10h3M15 2v2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 17h5" fill="none" stroke="#c2255c" stroke-width="1.5"/></symbol>
 </svg>
 <div class="wrap">
-<header><div class="orb"></div><h1><svg class="icon icon-cyber-lock" aria-hidden="true"><use href="#icon-cyber-lock"></use></svg> Mohamed BonDok</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 15</p>
+<header><div class="orb"></div><h1><svg class="icon icon-cyber-crown" aria-hidden="true"><use href="#icon-cyber-crown"></use></svg> Mohamed BonDok</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 15</p>
 <div class="section-picker"><label for="secs">اختر السكشن</label><select id="secs" aria-label="اختر السكشن"></select></div></header>
 <div class="viewbar"><div class="views"><button class="on" data-v="s"><svg class="icon icon-calendar" aria-hidden="true"><use href="#icon-calendar"></use></svg> الجدول</button><button data-v="m"><svg class="icon icon-books" aria-hidden="true"><use href="#icon-books"></use></svg> المواد</button></div><button class="chip" id="theme" aria-label="تغيير المظهر" aria-pressed="true"><svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"></use></svg></button></div>
 <div id="sched">
@@ -583,12 +584,12 @@ $("theme").onclick=()=>{
   icon.querySelector("use").setAttribute("href",dark?"#icon-sun":"#icon-moon");
 };
 
-// دعم تثبيت التطبيق (PWA) تلقائياً بأيقونة قفل وأقواس كود
+// دعم تثبيت التطبيق (PWA) تلقائياً بتاج سايبر يحمل حروف MB
 let deferredInstallPrompt=null;
 const installBtn=$("install-app");
 
 function createSvgIconDataUrl(size){
-  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 28 28"><rect x="1" y="1" width="26" height="26" rx="7" fill="#0d1b33" stroke="#38bdf8" stroke-width="1.5"/><path d="M7.5 10.5 5 14l2.5 3.5M20.5 10.5 23 14l-2.5 3.5" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10.2" y="13.2" width="7.6" height="6.3" rx="1.6" fill="#1976ff" stroke="#bae6fd" stroke-width="1.2"/><path d="M11.8 13.2v-2.1a2.2 2.2 0 0 1 4.4 0v2.1" fill="none" stroke="#67e7ff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="16.2" r="1" fill="#eff4ff"/></svg>`;
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32"><rect x="1" y="1" width="30" height="30" rx="8" fill="#090d19" stroke="#63eaff" stroke-width="1.5"/><path d="m4 11 6.2 5L16 7.5l5.8 8.5L28 11l-2.4 14.5H6.4L4 11Z" fill="#0d2240" stroke="#63eaff" stroke-width="1.6" stroke-linejoin="round"/><path d="M7.5 23h17" fill="none" stroke="#2dd4bf" stroke-width="1.8" stroke-linecap="round"/><circle cx="4" cy="9.5" r="1.7" fill="#67e7ff"/><circle cx="16" cy="5.8" r="1.9" fill="#2dd4bf"/><circle cx="28" cy="9.5" r="1.7" fill="#67e7ff"/><text x="16" y="20" text-anchor="middle" fill="#eff4ff" font-family="Arial,sans-serif" font-size="6.4" font-weight="800" letter-spacing="0.4">MB</text></svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
