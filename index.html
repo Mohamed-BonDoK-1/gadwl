@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Mohamed BonDok">
-<title>Mohamed BonDok — جدول السنة الأولى</title>
+<title>𝐸𝒩𝒢. 𝑀. 𝐵𝑜𝓃𝒟𝑜𝒦 — جدول السنة الأولى</title>
 <link id="pwa-manifest" rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
@@ -122,7 +122,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <symbol id="icon-party" viewBox="0 0 24 24"><path d="m3 20 7-16 11 16H3Z" fill="currentColor"/><path d="m7 15 3-7 6 7H7Z" fill="#fff"/><path d="M10 4 12 2l2 2-2 2-2-2Z" fill="#ffc857"/><circle cx="5" cy="6" r="1.2" fill="#ffc857"/><circle cx="19" cy="4" r="1" fill="#0b7285"/><path d="M3 11h3M19 10h3M15 2v2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 17h5" fill="none" stroke="#c2255c" stroke-width="1.5"/></symbol>
 </svg>
 <div class="wrap">
-<header><div class="orb"></div><h1><svg class="icon icon-crown" aria-hidden="true"><use href="#icon-crown"></use></svg> Mohamed BonDok</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 14</p>
+<header><div class="orb"></div><h1><svg class="icon icon-crown" aria-hidden="true"><use href="#icon-crown"></use></svg> 𝐸𝒩𝒢. 𝑀. 𝐵𝑜𝓃𝒟𝑜𝒦</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 14</p>
 <div class="section-picker"><label for="secs">اختر السكشن</label><select id="secs" aria-label="اختر السكشن"></select></div></header>
 <div class="viewbar"><div class="views"><button class="on" data-v="s"><svg class="icon icon-calendar" aria-hidden="true"><use href="#icon-calendar"></use></svg> الجدول</button><button data-v="m"><svg class="icon icon-books" aria-hidden="true"><use href="#icon-books"></use></svg> المواد</button></div><button class="chip" id="theme" aria-label="تغيير المظهر" aria-pressed="true"><svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"></use></svg></button></div>
 <div id="sched">
@@ -170,12 +170,9 @@ const N={
 // Lectures: [day, start, end, subject, instructor, room, sections]
 const LEC_ALL = [
   // Friday (day = 6) — محاضرات فقط (ولا سكاشن يوم الجمعة)
-  [6, 9, 10, "L", "Mr. Adham", "A202", [10, 11, 12]],
   [6, 10, 11, "T", "Dr. Nelly Saeed", "G202", [6, 7, 8, 9, 10]],
-  [6, 10, 11, "L", "Mr. Adham", "A303", [13, 14]],
   [6, 11, 12, "T", "Dr. Nelly Saeed", "G202", [11, 12, 13, 14]],
   [6, 14, 15, "D", "Dr. Abeer Hassan", "A-New", [1, 2, 3, 4, 5]],
-  [6, 14, 15, "L", "Mr. Adham", "G204", [7, 8, 9]],
   [6, 14, 15, "S", "Dr. Nelly Saeed", "F-Seminar", [11, 12, 13, 14]],
   [6, 15, 16, "S", "Dr. Nelly Saeed", "A-New", [1, 2, 3, 4, 5]],
   [6, 15, 16, "D", "Dr. Abeer Hassan", "F-Seminar", [6, 7, 8, 9, 10]],
@@ -203,6 +200,11 @@ const LEC_ALL = [
 // سكاشن الفرقة الأولى (1 إلى 14): [يوم, من, لـ, مادة, معيد, مكان, أسبوع, أقسام_مستهدفة]
 // Section practicals: [day, start, end, subject, instructor, room, week, sections]
 const S_ALL = [
+  // Friday (day = 6) — سكاشن الإنجليزي Eng. Adham
+  [6, 9, 10, "L", "Eng. Adham", "A202", 0, [10, 11, 12]],
+  [6, 10, 11, "L", "Eng. Adham", "A303", 0, [13, 14]],
+  [6, 14, 15, "L", "Eng. Adham", "G204", 0, [7, 8, 9]],
+
   // Saturday (day = 0)
   [0, 9, 10, "S", "Reem", "D101", 0, [10]],
   [0, 9, 10, "S", "Faris", "A02", 1, [13]],
@@ -301,7 +303,7 @@ const SUBJ=[
   ["Database Systems (أنظمة قواعد البيانات)","د. Abeer Hassan",["Mohamed Hamdy","Nadia","Karim Adel"],"الجمعة (02–03: أقسام 1–5 · A-New | 03–04: أقسام 6–10 · F-Seminar | 04–05: أقسام 11–14 · F-Seminar)"],
   ["Mathematics (الرياضيات)","د. Shaimaa Muhran",["Abdulaziz Ahmed","Omnia"],"السبت (09–10: أقسام 1–5 · A-NEW | 10–11: أقسام 6–10 · A-NEW | 11–12: أقسام 11–14 · F-Seminar)"],
   ["Entrepreneurship and Creative Thinking (ريادة الأعمال)","د. Naglaa Abdulmohsen",[],"الأربعاء 09:00–10:00 · O.L"],
-  ["English I (اللغة الإنجليزية 1)","Mr. Adham / د. Ahmed Hassan",[],"الجمعة (09–10: أقسام 10–12 · A202 | 10–11: أقسام 13–14 · A303 | 02–03: أقسام 7–9 · G204) · الأربعاء (03–06)"]
+  ["English I (اللغة الإنجليزية 1)","د. Ahmed Hassan",["Eng. Adham"],"الجمعة سكاشن Eng. Adham (09–10: أقسام 10–12 · A202 | 10–11: أقسام 13–14 · A303 | 02–03: أقسام 7–9 · G204) · الأربعاء محاضرة (03–06)"]
 ];
 
 const fmt=h=>String(h>12?h-12:h).padStart(2,"0")+":00";
@@ -329,7 +331,7 @@ const dayItems=(d,s)=>{
     s:l[1], e:l[2], t:N[l[3]], ta:l[4], r:l[5], tag:"أسبوعياً", w:0, ty:"lec"
   }));
   const secs = S_ALL.filter(x=>x[0]===d&&x[7].includes(s)).map(x=>({
-    s:x[1], e:x[2], t:N[x[3]], ta:"م. "+x[4], r:x[5],
+    s:x[1], e:x[2], t:N[x[3]], ta:x[4].startsWith("Eng.")?x[4]:"م. "+x[4], r:x[5],
     tag:x[6]===0?"أسبوع 1 و 2":`أسبوع ${x[6]}`, w:x[6], ty:"sec"
   }));
   return lecs.concat(secs).sort((a,b)=>a.s-b.s);
@@ -441,7 +443,7 @@ function createIcsCalendar(){
     start:item[1],
     end:item[2],
     subject:N[item[3]],
-    instructor:"م. "+item[4],
+    instructor:item[4].startsWith("Eng.")?item[4]:"م. "+item[4],
     room:item[5],
     weekType:item[6],
     kind:"سكشن"
@@ -504,7 +506,7 @@ function render(){
       el.style.animationDelay=k*70+"ms";
       el.innerHTML=`<h3>${s[0]}</h3>
       <div class="row"><b><span class="icon-label">${icon("teacher")} أستاذ المادة:</span></b><span class="pill">${s[1]}</span></div>
-      <div class="row"><b><span class="icon-label">${icon("laptop")} المعيدين:</span></b>${s[2].length?s[2].map(x=>`<span class="pill">م. ${x}</span>`).join(""):'<span style="color:var(--mut)">محاضرة نظري فقط</span>'}</div>
+      <div class="row"><b><span class="icon-label">${icon("laptop")} المعيدين:</span></b>${s[2].length?s[2].map(x=>`<span class="pill">${x.startsWith("Eng.")?x:"م. "+x}</span>`).join(""):'<span style="color:var(--mut)">محاضرة نظري فقط</span>'}</div>
       <div class="row"><b><span class="icon-label">${icon("clock")} موعد المحاضرة:</span></b><span class="pill">${s[3]}</span></div>`;
       list.appendChild(el);
     });
