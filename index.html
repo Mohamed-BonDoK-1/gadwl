@@ -346,8 +346,7 @@ function selectNextScheduledDay(){
 for(let k=1;k<=SEC_COUNT;k++){
   const option=document.createElement("option");
   option.value=k;
-  const totCount=LEC_ALL.filter(l=>l[6].includes(k)).length+S_ALL.filter(x=>x[7].includes(k)).length;
-  option.textContent=`سكشن ${k} — ${totCount} حصة`;
+  option.textContent=`سكشن ${k}`;
   $("secs").appendChild(option);
 }
 $("secs").onchange=()=>{
