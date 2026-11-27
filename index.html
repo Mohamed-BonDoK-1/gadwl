@@ -122,7 +122,7 @@ header p{margin:0 0 14px;opacity:.92;font-size:.86rem}
 <symbol id="icon-party" viewBox="0 0 24 24"><path d="m3 20 7-16 11 16H3Z" fill="currentColor"/><path d="m7 15 3-7 6 7H7Z" fill="#fff"/><path d="M10 4 12 2l2 2-2 2-2-2Z" fill="#ffc857"/><circle cx="5" cy="6" r="1.2" fill="#ffc857"/><circle cx="19" cy="4" r="1" fill="#0b7285"/><path d="M3 11h3M19 10h3M15 2v2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 17h5" fill="none" stroke="#c2255c" stroke-width="1.5"/></symbol>
 </svg>
 <div class="wrap">
-<header><div class="orb"></div><h1><svg class="icon icon-crown" aria-hidden="true"><use href="#icon-crown"></use></svg> Mohamed BonDok</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 15</p>
+<header><div class="orb"></div><h1><svg class="icon icon-crown" aria-hidden="true"><use href="#icon-crown"></use></svg> Mohamed BonDok</h1><h2><svg class="icon icon-shield" aria-hidden="true"><use href="#icon-shield"></use></svg> الأمن السيبراني · السنة الأولى</h2><p>الترم الأول 2026/2027 · اختار سكشنك من 1 إلى 14</p>
 <div class="section-picker"><label for="secs">اختر السكشن</label><select id="secs" aria-label="اختر السكشن"></select></div></header>
 <div class="viewbar"><div class="views"><button class="on" data-v="s"><svg class="icon icon-calendar" aria-hidden="true"><use href="#icon-calendar"></use></svg> الجدول</button><button data-v="m"><svg class="icon icon-books" aria-hidden="true"><use href="#icon-books"></use></svg> المواد</button></div><button class="chip" id="theme" aria-label="تغيير المظهر" aria-pressed="true"><svg class="icon icon-sun" aria-hidden="true"><use href="#icon-sun"></use></svg></button></div>
 <div id="sched">
@@ -144,6 +144,7 @@ const DN=["السبت","الأحد","الاثنين","الثلاثاء","الأ�
 // بداية الأسبوع الثاني: الأحد 22 نوفمبر 2026 (الأسبوع يبدأ الأحد وينتهي السبت)
 const WEEK_TWO_START=Date.UTC(2026,10,22);
 const MS_PER_WEEK=7*24*60*60*1000;
+const SEC_COUNT=14;
 
 function getSundayUtc(date=new Date()){
   return Date.UTC(date.getFullYear(),date.getMonth(),date.getDate()-date.getDay());
@@ -165,41 +166,41 @@ const N={
   L:"English I"
 };
 
-// محاضرات الفرقة الأولى: [يوم, من, لـ, مادة, دكتور, مكان, أقسام_مستهدفة]
+// محاضرات الفرقة الأولى (سكاشن 1 إلى 14): [يوم, من, لـ, مادة, دكتور, مكان, أقسام_مستهدفة]
 // Lectures: [day, start, end, subject, instructor, room, sections]
 const LEC_ALL = [
   // Friday (day = 6)
   [6, 9, 10, "L", "Mr. Adham", "A202", [10, 11, 12]],
   [6, 10, 11, "T", "Dr. Nelly Saeed", "G202", [6, 7, 8, 9, 10]],
-  [6, 10, 11, "L", "Mr. Adham", "A303", [13, 14, 15]],
-  [6, 11, 12, "T", "Dr. Nelly Saeed", "G202", [11, 12, 13, 14, 15]],
+  [6, 10, 11, "L", "Mr. Adham", "A303", [13, 14]],
+  [6, 11, 12, "T", "Dr. Nelly Saeed", "G202", [11, 12, 13, 14]],
   [6, 14, 15, "D", "Dr. Abeer Hassan", "A-New", [1, 2, 3, 4, 5]],
-  [6, 14, 15, "S", "Dr. Nelly Saeed", "F-Seminar", [11, 12, 13, 14, 15]],
+  [6, 14, 15, "S", "Dr. Nelly Saeed", "F-Seminar", [11, 12, 13, 14]],
   [6, 14, 15, "L", "Mr. Adham", "G204", [7, 8, 9]],
   [6, 15, 16, "S", "Dr. Nelly Saeed", "A-New", [1, 2, 3, 4, 5]],
   [6, 15, 16, "D", "Dr. Abeer Hassan", "F-Seminar", [6, 7, 8, 9, 10]],
   [6, 16, 17, "S", "Dr. Nelly Saeed", "A202", [6, 7, 8, 9, 10]],
-  [6, 16, 17, "D", "Dr. Abeer Hassan", "F-Seminar", [11, 12, 13, 14, 15]],
+  [6, 16, 17, "D", "Dr. Abeer Hassan", "F-Seminar", [11, 12, 13, 14]],
   [6, 17, 18, "T", "Dr. Nelly Saeed", "A-New", [1, 2, 3, 4, 5]],
 
   // Saturday (day = 0)
   [0, 9, 10, "M", "Dr. Shaimaa Muhran", "A-NEW", [1, 2, 3, 4, 5]],
   [0, 10, 11, "M", "Dr. Shaimaa Muhran", "A-NEW", [6, 7, 8, 9, 10]],
-  [0, 11, 12, "M", "Dr. Shaimaa Muhran", "F-Seminar", [11, 12, 13, 14, 15]],
+  [0, 11, 12, "M", "Dr. Shaimaa Muhran", "F-Seminar", [11, 12, 13, 14]],
 
   // Wednesday (day = 4)
-  [4, 9, 10, "E", "Dr. Naglaa Abdulmohsen", "O.L", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]],
+  [4, 9, 10, "E", "Dr. Naglaa Abdulmohsen", "O.L", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]],
   [4, 15, 16, "L", "Dr. Ahmed Hassan", "A202", [6, 7, 8, 9, 10]],
-  [4, 16, 17, "L", "Dr. Ahmed Hassan", "F-Seminar", [11, 12, 13, 14, 15]],
+  [4, 16, 17, "L", "Dr. Ahmed Hassan", "F-Seminar", [11, 12, 13, 14]],
   [4, 17, 18, "L", "Dr. Ahmed Hassan", "F-Seminar", [1, 2, 3, 4, 5]],
 
   // Thursday (day = 5)
   [5, 9, 10, "P", "Dr. Ahmed Ibrahem", "G204", [1, 2, 3, 4]],
   [5, 10, 11, "P", "Dr. Ahmed Ibrahem", "G204", [5, 6, 7, 8]],
-  [5, 11, 12, "P", "Dr. Ahmed Ibrahem", "G204", [9, 10, 11, 12, 13, 14, 15]]
+  [5, 11, 12, "P", "Dr. Ahmed Ibrahem", "G204", [9, 10, 11, 12, 13, 14]]
 ];
 
-// سكاشن الفرقة الأولى: [يوم, من, لـ, مادة, معيد, مكان, أسبوع, أقسام_مستهدفة]
+// سكاشن الفرقة الأولى (1 إلى 14): [يوم, من, لـ, مادة, معيد, مكان, أسبوع, أقسام_مستهدفة]
 // Section practicals: [day, start, end, subject, instructor, room, week, sections]
 const S_ALL = [
   // Friday (day = 6)
@@ -213,9 +214,7 @@ const S_ALL = [
   // Saturday (day = 0)
   [0, 9, 10, "S", "Reem", "D101", 0, [1, 2]],
   [0, 9, 10, "S", "Faris", "A02", 1, [13]],
-  [0, 9, 10, "S", "Faris", "D101", 2, [15]],
   [0, 10, 11, "S", "Faris", "D103", 1, [12]],
-  [0, 10, 11, "D", "Karim Adel", "D104", 0, [15]],
   [0, 12, 13, "S", "Reem", "PLC", 0, [10, 11]],
   [0, 12, 13, "P", "Ahmed", "G105", 1, [13]],
   [0, 13, 14, "P", "Ahmed", "G105", 1, [10]],
@@ -224,7 +223,6 @@ const S_ALL = [
   [0, 14, 15, "T", "Ahmed", "C103", 2, [4, 5]],
   [0, 14, 15, "D", "Karim Adel", "D103", 0, [14]],
   [0, 15, 16, "T", "Ahmed", "D101", 1, [4]],
-  [0, 15, 16, "T", "Karim Adel", "D103", 0, [15]],
   [0, 16, 17, "T", "Ahmed", "A202", 2, [6, 7]],
   [0, 16, 17, "T", "Karim Adel", "D105", 0, [13]],
   [0, 17, 18, "T", "Ahmed", "D101", 1, [7]],
@@ -241,15 +239,15 @@ const S_ALL = [
   [4, 11, 12, "T", "Walaa Gomaa", "D105", 0, [10]],
   [4, 12, 13, "S", "Mahmoud", "D101", 1, [5]],
   [4, 12, 13, "T", "Walaa Gomaa", "D105", 1, [11]],
-  [4, 12, 13, "M", "Omnia", "A202", 1, [14, 15]],
+  [4, 12, 13, "M", "Omnia", "A202", 1, [14]],
   [4, 13, 14, "S", "Mahmoud", "D102", 2, [7]],
   [4, 13, 14, "P", "Habiba", "G107", 0, [9]],
-  [4, 13, 14, "M", "Omnia", "G107", 2, [14, 15]],
+  [4, 13, 14, "M", "Omnia", "G107", 2, [14]],
   [4, 14, 15, "P", "Habiba", "G202", 0, [7, 8]],
   [4, 14, 15, "S", "Mahmoud", "D104", 2, [9]],
   [4, 14, 15, "T", "Walaa Gomaa", "D105", 1, [12]],
   [4, 14, 15, "T", "Walaa Gomaa", "D103", 2, [12]],
-  [4, 14, 15, "P", "Ahmed", "A202", 0, [14, 15]],
+  [4, 14, 15, "P", "Ahmed", "A202", 0, [14]],
   [4, 15, 16, "T", "Ahmed", "F201", 1, [5]],
   [4, 15, 16, "M", "Omnia", "G207", 0, [11, 12]],
   [4, 16, 17, "T", "Ahmed", "D105", 1, [6]],
@@ -258,7 +256,7 @@ const S_ALL = [
   [4, 16, 17, "M", "Omnia", "G207", 0, [9, 10]],
   [4, 17, 18, "T", "Walaa Gomaa", "D104", 2, [8]],
   [4, 17, 18, "P", "Ahmed", "A202", 0, [11, 12]],
-  [4, 17, 18, "M", "Omnia", "G202", 0, [13, 14, 15]],
+  [4, 17, 18, "M", "Omnia", "G202", 0, [13, 14]],
 
   // Thursday (day = 5)
   [5, 9, 10, "D", "Mohamed Hamdy", "A02", 1, [5]],
@@ -295,19 +293,19 @@ const S_ALL = [
 ];
 
 const SUBJ=[
-  ["Applied Physics (الفيزياء التطبيقية)","د. Ahmed Ibrahem",["Faris","Habiba","Ahmed"],"الخميس (09–10: أقسام 1–4 | 10–11: أقسام 5–8 | 11–12: أقسام 9–15) · G204"],
-  ["Information Technology (تكنولوجيا المعلومات)","د. Nelly Saeed",["Reem","Walaa Gomaa","Ahmed","Karim Adel"],"الجمعة (10–11: أقسام 6–10 · G202 | 11–12: أقسام 11–15 · G202 | 05–06: أقسام 1–5 · A-New)"],
-  ["Introduction to Information Systems (مقدمة في نظم المعلومات)","د. Nelly Saeed",["Mahmoud","Faris","Reem"],"الجمعة (02–03: أقسام 11–15 · F-Seminar | 03–04: أقسام 1–5 · A-New | 04–05: أقسام 6–10 · A202)"],
-  ["Database Systems (أنظمة قواعد البيانات)","د. Abeer Hassan",["Mohamed Hamdy","Nadia","Karim Adel"],"الجمعة (02–03: أقسام 1–5 · A-New | 03–04: أقسام 6–10 · F-Seminar | 04–05: أقسام 11–15 · F-Seminar)"],
-  ["Mathematics (الرياضيات)","د. Shaimaa Muhran",["Abdulaziz Ahmed","Omnia"],"السبت (09–10: أقسام 1–5 · A-NEW | 10–11: أقسام 6–10 · A-NEW | 11–12: أقسام 11–15 · F-Seminar)"],
-  ["Entrepreneurship and Creative Thinking (ريادة الأعمال)","د. Naglaa Abdulmohsen",[],"الأربعاء 09:00–10:00 · Online (O.L)"],
-  ["English I (اللغة الإنجليزية 1)","Mr. Adham / د. Ahmed Hassan",[],"الجمعة (09–10: أقسام 10–12 · A202 | 10–11: أقسام 13–15 · A303 | 02–03: أقسام 7–9 · G204) · الأربعاء (03–06) · الخميس (04–06)"]
+  ["Applied Physics (الفيزياء التطبيقية)","د. Ahmed Ibrahem",["Faris","Habiba","Ahmed"],"الخميس (09–10: أقسام 1–4 | 10–11: أقسام 5–8 | 11–12: أقسام 9–14) · G204"],
+  ["Information Technology (تكنولوجيا المعلومات)","د. Nelly Saeed",["Reem","Walaa Gomaa","Ahmed","Karim Adel"],"الجمعة (10–11: أقسام 6–10 · G202 | 11–12: أقسام 11–14 · G202 | 05–06: أقسام 1–5 · A-New)"],
+  ["Introduction to Information Systems (مقدمة في نظم المعلومات)","د. Nelly Saeed",["Mahmoud","Faris","Reem"],"الجمعة (02–03: أقسام 11–14 · F-Seminar | 03–04: أقسام 1–5 · A-New | 04–05: أقسام 6–10 · A202)"],
+  ["Database Systems (أنظمة قواعد البيانات)","د. Abeer Hassan",["Mohamed Hamdy","Nadia","Karim Adel"],"الجمعة (02–03: أقسام 1–5 · A-New | 03–04: أقسام 6–10 · F-Seminar | 04–05: أقسام 11–14 · F-Seminar)"],
+  ["Mathematics (الرياضيات)","د. Shaimaa Muhran",["Abdulaziz Ahmed","Omnia"],"السبت (09–10: أقسام 1–5 · A-NEW | 10–11: أقسام 6–10 · A-NEW | 11–12: أقسام 11–14 · F-Seminar)"],
+  ["Entrepreneurship and Creative Thinking (ريادة الأعمال)","د. Naglaa Abdulmohsen",[],"الأربعاء 09:00–10:00 · O.L"],
+  ["English I (اللغة الإنجليزية 1)","Mr. Adham / د. Ahmed Hassan",[],"الجمعة (09–10: أقسام 10–12 · A202 | 10–11: أقسام 13–14 · A303 | 02–03: أقسام 7–9 · G204) · الأربعاء (03–06)"]
 ];
 
 const fmt=h=>String(h>12?h-12:h).padStart(2,"0")+":00";
 let now=new Date(),todayIdx=JD.indexOf(now.getDay()),nowMin=now.getHours()*60+now.getMinutes();
 let sec=1,sel=todayIdx,filter="all",autoWeek=getCurrentWeek(now),week=autoWeek,manualWeekOverride=false,view="s";
-try{const v=+localStorage.getItem("sec_y1");if(v>=1&&v<=15)sec=v}catch(e){}
+try{const v=+localStorage.getItem("sec_y1");if(v>=1&&v<=SEC_COUNT)sec=v}catch(e){}
 const $=id=>document.getElementById(id),list=$("list"),daySelect=$("day");
 const icon=name=>`<svg class="icon icon-${name}" aria-hidden="true"><use href="#icon-${name}"></use></svg>`;
 
@@ -342,8 +340,8 @@ function selectNextScheduledDay(){
   }
 }
 
-// إنشاء قائمة اختيار السكاشن من 1 إلى 15
-for(let k=1;k<=15;k++){
+// إنشاء قائمة اختيار السكاشن من 1 إلى 14
+for(let k=1;k<=SEC_COUNT;k++){
   const option=document.createElement("option");
   option.value=k;
   const totCount=LEC_ALL.filter(l=>l[6].includes(k)).length+S_ALL.filter(x=>x[7].includes(k)).length;
