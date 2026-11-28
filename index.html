@@ -167,6 +167,8 @@ const N={
   L:"English I"
 };
 
+const secSubjName=code=>code==="E"?"Entrepreneurship and Creative Thinking":N[code];
+
 // محاضرات الفرقة الأولى (سكاشن 1 إلى 14): [يوم, من, لـ, مادة, دكتور, مكان, أقسام_مستهدفة]
 // Lectures: [day, start, end, subject, instructor, room, sections]
 const LEC_ALL = [
@@ -365,7 +367,7 @@ const dayItems=(d,s)=>{
     s:l[1], e:l[2], t:N[l[3]], ta:l[4], r:l[5], tag:"أسبوعياً", w:0, ty:"lec"
   }));
   const secs = S_ALL.filter(x=>x[0]===d&&x[7].includes(s)).map(x=>({
-    s:x[1], e:x[2], t:N[x[3]], ta:x[4].startsWith("Eng.")?x[4]:"م. "+x[4], r:x[5],
+    s:x[1], e:x[2], t:secSubjName(x[3]), ta:x[4].startsWith("Eng.")?x[4]:"م. "+x[4], r:x[5],
     tag:x[6]===0?"أسبوع 1 و 2":`أسبوع ${x[6]}`, w:x[6], ty:"sec"
   }));
   return lecs.concat(secs).sort((a,b)=>a.s-b.s);
@@ -476,7 +478,7 @@ function createIcsCalendar(){
     day:item[0],
     start:item[1],
     end:item[2],
-    subject:N[item[3]],
+    subject:secSubjName(item[3]),
     instructor:item[4].startsWith("Eng.")?item[4]:"م. "+item[4],
     room:item[5],
     weekType:item[6],
